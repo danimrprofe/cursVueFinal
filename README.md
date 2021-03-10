@@ -1,4 +1,22 @@
 # Projecte curs Vue.js
+
+Aquest projecte utilitza:
+
+- **Vue (versió 2.6)**, un framework que ens ajuda a desenvolupar una aplicació web. Es tracta d'un framework reactiu. La interfaç canvia quan les dades de la pàgina canvien. Cada pàgina. Cada aplicació web està feta a partir de petits components que es poden reutilitzar en vàries pàgines.
+- **Vue CLI **és una interfaç de comandes d'usuari per a executar comandes que ens ajudin a crear una estructura bàsica.
+
+Opcionalment he utilitzat:
+
+- **Bootstrap (4.6)**, un framework CSS que ens ajuda a desenvolupar aplicacions web responsive i adaptades a dispositius mòbils.
+
+    "bootstrap": "^4.6.0",
+    "bootstrap-vue": "^2.21.2",
+    "core-js": "^3.6.5",
+    "vue": "^2.6.12",
+    "vue-cli": "^2.9.6",
+    "vue-router": "^3.5.1",
+    "vuex": "^3.6.2"
+
 En primer lugar pots clonar aquest repositori amb:
 
         git clone http://github.com/danimrprofe/cursVueDefinitiu
