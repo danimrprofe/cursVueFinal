@@ -1,7 +1,7 @@
 <template>
   <div class="llistatUsuaris">
     <h2>Component Llistat de usuaris</h2>
-    <div >
+    <div>
       <div v-if="$route.query.afegit" class="alert alert-success" role="alert">
         S'ha afegit 1 usuari nou al llistat
       </div>
@@ -45,7 +45,7 @@
         </tr>
       </table>
     </div>
-    <div class="alert alert-warning" >
+    <div class="alert alert-warning">
       <p>No hi ha usuaris registrats</p>
     </div>
   </div>

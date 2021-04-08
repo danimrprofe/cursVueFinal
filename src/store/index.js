@@ -37,6 +37,9 @@ export default new Vuex.Store({
             persona.id = state.lastUserID ;
             state.lastUserID++;
             state.llistaPersones.push(persona);
+
+
+            
         },
         loadUser:function(state,id){     
             
@@ -45,7 +48,7 @@ export default new Vuex.Store({
             
         },
         editUser:function(state, persona){  
-            alert("guardant" +persona.id)
+            
             state.llistaPersones[state.position] =persona;
             /*state.llistaPersones[persona.id-1] = persona;*/
         },

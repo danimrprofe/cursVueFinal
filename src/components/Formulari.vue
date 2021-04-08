@@ -15,8 +15,11 @@
       </div>
     <div class="card-body">
       <h5 class="card-title">Instruccions</h5>
-      <p class="card-text">En aquest formulari es registran els usuaris. Està crear dins l'arxiu Formulari.vue
-          Esteim guardant els usuaris al store</p>
+      
+      <div class="alert alert-info" role="alert">
+         Aquesta informació es guardarà a <strong>l'store </strong> juntament amb la resta d'usuaris. El nom es guarda també al <strong>localStorage</strong> del client.
+      </div>
+      
       <div v-if="!validado" class="alert alert-danger" role="alert">
   Falten dades per emplenar
 </div>
@@ -67,7 +70,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="dni" class="col-sm-2 col-form-label">Cognom 2 </label>
+        <label for="dni" class="col-sm-2 col-form-label">DNI </label>
         <div class="col-sm-10">
           <input @click="espotenviar()" required v-model="dni" class="form-control"  placeholder="DNI amb lletra" />               
         </div>
@@ -103,37 +106,67 @@ export default {
         /* exemple de format */
         /* { id : "1", nom: "Chiquito", cognom1: "De la", cognom2: "Calzada", DNI: ""}, */
       ],
-      usuari: null
+      usuari: null,
     };
   },
-
+  mounted() {
+    if (localStorage.getItem("nom")) {
+      try {
+        this.nom = JSON.parse(localStorage.getItem("nom"));
+      } catch (e) {
+        localStorage.removeItem("nom");
+      }
+    }
+  },
 
   methods: {
-    carregarUsuari: function(id) {      
-      this.usuari = this.$store.getters.getUsuariAmbId(id) // -> { id: 2, text: '...', done: false }      
+    carregarUsuari: function (id) {
+      this.usuari = this.$store.getters.getUsuariAmbId(id); // -> { id: 2, text: '...', done: false }
       this.nom = this.usuari.nom;
       this.cognom1 = this.usuari.cognom1;
       this.cognom2 = this.usuari.cognom2;
       this.dni = this.usuari.dni;
     },
     desar: function () {
-      this.checkForm();     
-      this.$store.commit("afegeixPersona", { nom: this.nom, cognom1: this.cognom1, cognom2: this.cognom2, dni: this.dni } );
-      this.esborraFormulari();      
-      this.$router.push('/llistat?afegit=true');  
+      this.checkForm();
+      //proves localstorage
+      const parsed = JSON.stringify(this.nom);
+      localStorage.setItem("nom", parsed);
+
+      this.$store.commit("afegeixPersona", {
+        nom: this.nom,
+        cognom1: this.cognom1,
+        cognom2: this.cognom2,
+        dni: this.dni,
+      });
+      this.esborraFormulari();
+      this.$router.push("/llistat?afegit=true");
       /* Guardar el darrer usuari al local storage*/
       /*const parsed = JSON.stringify(this.usuari);
       localStorage.setItem('usuari', parsed);*/
     },
-      carregarProves: function () {
-      
-      this.$store.commit("afegeixPersona", { nom: 'Homer', cognom1: 'Simpson', cognom2: 'Simpson', dni:'00000000X' } );
-      this.$store.commit("afegeixPersona", { nom: 'Marge', cognom1: 'Bouvier', cognom2: 'Bouvier', dni:'00000001X' } );
-      this.$store.commit("afegeixPersona", { nom: 'Homer', cognom1: 'Simpson', cognom2: 'Bouvier', dni:'00000002X' } );
-      this.esborraFormulari();      
-      this.$router.push('/llistat?afegit=true');  
+    carregarProves: function () {
+      this.$store.commit("afegeixPersona", {
+        nom: "Homer",
+        cognom1: "Simpson",
+        cognom2: "Simpson",
+        dni: "00000000X",
+      });
+      this.$store.commit("afegeixPersona", {
+        nom: "Marge",
+        cognom1: "Bouvier",
+        cognom2: "Bouvier",
+        dni: "00000001X",
+      });
+      this.$store.commit("afegeixPersona", {
+        nom: "Homer",
+        cognom1: "Simpson",
+        cognom2: "Bouvier",
+        dni: "00000002X",
+      });
+      this.esborraFormulari();
+      this.$router.push("/llistat?afegit=true");
       /* Guardar el darrer usuari al local storage*/
-
     },
 
     esborraFormulari: function () {
@@ -143,19 +176,28 @@ export default {
       this.dni = "";
     },
     checkForm: function (e) {
-      if (this.nom && this.cognom1 && this.cognom2 && this.dni) {  return true;   }
+      if (this.nom && this.cognom1 && this.cognom2 && this.dni) {
+        return true;
+      }
       this.errors = [];
-      
-      if (!this.nom) { this.errors.push("El nom és obligatori"); }
-      if (!this.cognom1) { this.errors.push("El cognom1 és obligatori"); }
-      if (!this.cognom2) { this.errors.push("El cognom2 és obligatori"); }
-      if (!this.dni) { this.errors.push("El dni és obligatori"); }
+
+      if (!this.nom) {
+        this.errors.push("El nom és obligatori");
+      }
+      if (!this.cognom1) {
+        this.errors.push("El cognom1 és obligatori");
+      }
+      if (!this.cognom2) {
+        this.errors.push("El cognom2 és obligatori");
+      }
+      if (!this.dni) {
+        this.errors.push("El dni és obligatori");
+      }
 
       e.preventDefault();
     },
     eliminar: function (idUsuari) {
-      this.$store.commit("eliminaPersona",idUsuari);   
-      
+      this.$store.commit("eliminaPersona", idUsuari);
     },
     espotenviar: function () {
       if (this.nom == undefined || this.nom == "") {
@@ -201,6 +243,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-
 </style>
